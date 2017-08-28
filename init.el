@@ -37,7 +37,9 @@
     yasnippet
     clojure-snippets
     web-mode
-    nyan-mode))
+    nyan-mode
+    projectile
+    flx-ido))
 
 ;; Get all the packages!
 (dolist (p my-packages)

@@ -3,3 +3,7 @@ elpa
 .mc-lists.el
 auto-save-list/*
 eshell/*
+
+network-security.data
+projectile-bookmarks.eld
+*.cache
