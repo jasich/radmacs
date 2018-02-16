@@ -127,21 +127,7 @@
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 
-;; IDK maybe this will be useful?
-;; (global-set-key (kbd "<backtab>") 'un-indent)
-;; (defun un-indent ()
-;;   "remove spaces from beginning of of line"
-;;   (interactive)
-;;   (save-excursion
-;;     (save-match-data
-;;       (beginning-of-line)
-;;       ;; get rid of tabs at beginning of line
-;;       (when (looking-at "^\\s-+")
-;;         (untabify (match-beginning 0) (match-end 0)))
-;;       (when (looking-at (concat "^" (make-string tab-width ?\ )))
-;;         (replace-match "")))))
-
-
+;; Hide toolbar
 (tool-bar-mode -1)
 
 (add-hook 'yaml-mode-hook
@@ -192,11 +178,6 @@
 
 ;; Highlight current line
 (global-hl-line-mode 1)
-
-
-;; idk if I have to run this all the time or not
-(require 'ruby-block)
-(ruby-block-mode t)
 
 ;; Global Search
 (global-set-key [(super shift f)] 'rgrep)
