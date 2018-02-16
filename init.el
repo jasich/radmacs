@@ -4,7 +4,7 @@
 (require 'package)
 
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/") t)
+             '("melpa" . "https://melpa.org/packages/") t)
 
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -23,23 +23,34 @@
 
 ;; Define all the packages I use for emacs
 (defvar my-packages
-  '(paredit
+  '(parinfer
     clojure-mode
     clojure-mode-extra-font-locking
     cider
     dash
     company
     multiple-cursors
+    atom-one-dark-theme
     neotree
     ace-window
+    flycheck
     markdown-mode
     all-the-icons
-    yasnippet
-    clojure-snippets
+    ;; yasnippet
+    ;; clojure-snippets
     web-mode
     nyan-mode
     projectile
-    flx-ido))
+    flx-ido
+    haml-mode
+    yaml-mode
+    coffee-mode
+    rspec-mode
+    rubocop
+    exec-path-from-shell
+    rainbow-delimiters
+    ruby-block
+    magit))
 
 ;; Get all the packages!
 (dolist (p my-packages)
@@ -52,6 +63,10 @@
 ;; Adds an emacs vendor directory for manually placing .el files
 (add-to-list 'load-path "~/.emacs.d/vendor")
 
+;; Load current environment from shell
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 ;;;;
 ;; Customization
 ;;;;
@@ -60,14 +75,18 @@
 ;; calls know where to look
 (add-to-list 'load-path "~/.emacs.d/customizations")
 
+;; (set-frame-font "Source Code Pro Light 20")
+(set-frame-font "Menlo 20")
+
 (load "ui.el")
 (load "editing.el")
 (load "clojure.el")
+(load "ruby.el")
 (load "parens.el")
 (load "files.el")
 (load "windows.el")
-(load "fonts.el")
-(load "snippets.el")
+;; (load "fonts.el")
+;; (load "snippets.el")
 (load "web.el")
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -76,13 +95,20 @@
  ;; If there is more than one, they won't work right.
  '(cider-cljs-lein-repl
    "(cemerick.piggieback/cljs-repl (cljs.repl.rhino/repl-env))")
+ '(coffee-tab-width 2)
  '(custom-safe-themes
    (quote
     ("68f7a53f5f1a8d30e5cd2d119fe6ecddb081bfe61bc427ca20eefd0abfada488" default)))
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
-    (web-mode dash paredit neotree multiple-cursors company clojure-mode-extra-font-locking cider))))
+    (kibit-helper rspec-mode ruby-block exec-path-from-shell rubocop markdown-mode markdown-mode+ markdown-preview-eww coffee-mode yaml-mode web-mode dash paredit neotree multiple-cursors company clojure-mode-extra-font-locking cider)))
+ '(safe-local-variable-values
+   (quote
+    ((flycheck-disabled-checkers
+      (quote
+       (ruby-reek)))
+     (flycheck-disabled-checkers . ruby-reek)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

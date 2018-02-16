@@ -3,6 +3,13 @@
 ;;;;
 (require 'multiple-cursors)
 (global-set-key (kbd "C-c m c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key [(super d)] 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+;; Increase line height
+(setq-default line-spacing 5)
 
 ;;;;
 ;; Company for auto complete
@@ -11,22 +18,8 @@
 (global-company-mode)
 
 
-;;;;
-;; Paredit
-;;;;
-(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-
-;; configure those parens
-
-;; highlight matching parens, brackets, braces, etc...
-(show-paren-mode 1)
-
 ;; Cleanup whitepspace
 (add-hook 'before-save-hook 'whitespace-cleanup)
-
-;; Get electric with it.
-(electric-pair-mode 1)
-(electric-indent-mode 1)
 
 
 ;; I love being able to "Open above" the current line
@@ -38,7 +31,15 @@
   (forward-line -1)
   (indent-according-to-mode))
 
+(defun smart-open-line-below ()
+  "Insert an empty line below the current line. Position the cursor at it's beginning, according to the current mode."
+  (interactive)
+  (move-end-of-line nil)
+  (newline-and-indent)
+  (indent-according-to-mode))
+
 (global-set-key [(control return)] 'smart-open-line-above)
+(global-set-key [(control shift return)] 'smart-open-line-below)
 
 
 ;; Move region code, allows keybindings to move a line up and down.
@@ -93,18 +94,19 @@
   (interactive "r\np")
   (if (use-region-p) (move-region-down start end n) (move-line-down n)))
 
-(global-set-key [(control shift down)]  'move-line-region-down)
-(global-set-key [(control shift up)]  'move-line-region-up)
+;; Move a line (or lines) up or down in the buffer
+(global-set-key [(control super down)]  'move-line-region-down)
+(global-set-key [(control super up)]  'move-line-region-up)
 
 
-;; Tab around buffers
-(global-set-key [C-tab] 'next-buffer)
-(global-set-key (kbd "C-S-<tab>") 'previous-buffer)
+;; ;; Tab around buffers
+;; (global-set-key [C-tab] 'next-buffer)
+;; (global-set-key (kbd "C-S-<tab>") 'previous-buffer)
 
 
 ;; Navigate up and down
 (global-set-key [(super down)] 'end-of-buffer)
-(global-set-key [(super up)] 'beginning-of-buffer)
+(global-set-key [(super up)]   'beginning-of-buffer)
 
 (setq mac-command-modifier 'super)
 
@@ -117,4 +119,120 @@
   (open-line 1)
   (next-line 1)
   (yank))
-(global-set-key (kbd "s-d") 'duplicate-line)
+(global-set-key [(super shift d)] 'duplicate-line)
+
+
+;; Get electric with it.
+(setq electric-indent-mode nil)
+(electric-indent-mode 1)
+
+;; Comment/Uncomment with cmd-s
+(global-set-key (kbd "s-/") 'comment-dwim)
+
+;; Don't use tabs, use 2 spaces
+(setq-default indent-tabs-mode nil)
+(setq-default tab-width 2)
+
+;; IDK maybe this will be useful?
+;; (global-set-key (kbd "<backtab>") 'un-indent)
+;; (defun un-indent ()
+;;   "remove spaces from beginning of of line"
+;;   (interactive)
+;;   (save-excursion
+;;     (save-match-data
+;;       (beginning-of-line)
+;;       ;; get rid of tabs at beginning of line
+;;       (when (looking-at "^\\s-+")
+;;         (untabify (match-beginning 0) (match-end 0)))
+;;       (when (looking-at (concat "^" (make-string tab-width ?\ )))
+;;         (replace-match "")))))
+
+
+(tool-bar-mode -1)
+
+(add-hook 'yaml-mode-hook
+          (lambda ()
+            (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
+
+(setq-default fill-column 120)
+
+
+;; Save backups to a different directory
+(setq backup-directory-alist `(("." . ,(concat user-emacs-directory
+                                               "backups"))))
+
+;; Put auto-save files in different directory
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;; When you visit a file, point goes to the last place where it
+;; was when you previously visited the same file.
+;; http://www.emacswiki.org/emacs/SavePlace
+(require 'saveplace)
+(setq-default save-place t)
+;; keep track of saved places in ~/.emacs.d/places
+(setq save-place-file (concat user-emacs-directory "places"))
+
+;; Occasionally revert file-visiting buffers (ex:after git pull)
+(global-auto-revert-mode)
+
+
+;; No need for ~ files when editing
+(setq create-lockfiles nil)
+
+;; Changes all yes/no questions to y/n type
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Turn on recent file mode so that you can more easily switch to
+;; recently edited files when you first start emacs
+(setq recentf-save-file (concat user-emacs-directory ".recentf"))
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 40)
+
+
+;; "When several buffers visit identically-named files,
+;; Emacs must give the buffers distinct names. The usual method
+;; for making buffer names unique adds ‘<2>’, ‘<3>’, etc. to the end
+;; of the buffer names (all but one of them).
+;; The forward naming method includes part of the file's directory
+;; name at the beginning of the buffer name
+;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'forward)
+
+
+;; Turn this behavior off because it's annoying
+(setq ido-use-filename-at-point nil)
+
+;; Includes buffer names of recently open files, even if they're not
+;; open now
+(setq ido-use-virtual-buffers t)
+
+;; full path in title bar
+(setq-default frame-title-format "%b (%f)")
+
+;; no bell
+(setq ring-bell-function 'ignore)
+
+;; Highlight current line
+(global-hl-line-mode 1)
+
+
+;; idk if I have to run this all the time or not
+(require 'ruby-block)
+(ruby-block-mode t)
+
+;; Global Search
+(global-set-key [(super shift f)] 'rgrep)
+
+;; Show buffer menu instead of buffer list, so that it shows up in the same window
+(global-set-key "\C-x\C-b" 'buffer-menu)
+
+;; Enable Flycheck
+(global-flycheck-mode)
+
+;; Code folding
+(global-set-key (kbd "C-c C-f") 'hs-hide-all)
+(global-set-key (kbd "C-c C-F") 'hs-toggle-hiding)
+(global-set-key (kbd "C-c M-f") 'hs-show-all)
