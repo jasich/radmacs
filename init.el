@@ -39,7 +39,7 @@
     ;; yasnippet
     ;; clojure-snippets
     web-mode
-    nyan-mode
+    ;; nyan-mode
     projectile
     flx-ido
     haml-mode
@@ -75,8 +75,13 @@
 ;; calls know where to look
 (add-to-list 'load-path "~/.emacs.d/customizations")
 
-;; (set-frame-font "Source Code Pro Light 20")
 (set-frame-font "Menlo 20")
+
+;; Changes all yes/no questions to y/n type
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; no bell
+(setq ring-bell-function 'ignore)
 
 (load "buffers.el")
 (load "ui.el")

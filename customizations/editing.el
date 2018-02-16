@@ -17,10 +17,8 @@
 
 (global-company-mode)
 
-
 ;; Cleanup whitepspace
 (add-hook 'before-save-hook 'whitespace-cleanup)
-
 
 ;; I love being able to "Open above" the current line
 (defun smart-open-line-above ()
@@ -112,7 +110,8 @@
   (kill-line)
   (yank)
   (open-line 1)
-  (next-line 1)
+  ;; (next-line 1)
+  (forward-line 1)
   (yank))
 (global-set-key [(super shift d)] 'duplicate-line)
 
@@ -120,24 +119,25 @@
 (setq electric-indent-mode nil)
 (electric-indent-mode 1)
 
+(defun comment-dwim-line (&optional arg)
+  "ARG Replacement for the `comment-dwim` command.  If no region is selected and current
+line is not blank and we are not at the end of the line, then comment current line.
+Replaces default behaviour of `comment-dwim`, when it inserts comment at the end of the
+line."
+  (interactive "*P")
+  (comment-normalize-vars)
+  (if (and (not (region-active-p)) (not (looking-at "[ \t]*$")))
+      (comment-or-uncomment-region (line-beginning-position) (line-end-position))
+    (comment-dwim arg)))
+
 ;; Comment/Uncomment with cmd-s
-(global-set-key (kbd "s-/") 'comment-dwim)
+(global-set-key (kbd "s-/") 'comment-dwim-line)
 
 ;; Don't use tabs, use 2 spaces
 (setq-default indent-tabs-mode nil)
 (setq-default tab-width 2)
 
-;; Hide toolbar
-(tool-bar-mode -1)
-
-(add-hook 'yaml-mode-hook
-          (lambda ()
-            (define-key yaml-mode-map "\C-m" 'newline-and-indent)))
-
 (setq-default fill-column 120)
-
-;; no bell
-(setq ring-bell-function 'ignore)
 
 ;; Highlight current line
 (global-hl-line-mode 1)
