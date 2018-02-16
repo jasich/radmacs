@@ -62,3 +62,38 @@
 (scroll-bar-mode -1)        ;hide scroll-bar
 (tool-bar-mode -1)          ;hide tool-bar
 
+;; Save backups to a different directory
+(setq backup-directory-alist `(("." . ,(concat user-emacs-directory
+                                               "backups"))))
+
+;; Put auto-save files in different directory
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;; When you visit a file, point goes to the last place where it
+;; was when you previously visited the same file.
+;; http://www.emacswiki.org/emacs/SavePlace
+(require 'saveplace)
+(setq-default save-place t)
+;; keep track of saved places in ~/.emacs.d/places
+(setq save-place-file (concat user-emacs-directory "places"))
+
+;; No need for ~ files when editing
+(setq create-lockfiles nil)
+
+;; Turn on recent file mode so that you can more easily switch to
+;; recently edited files when you first start emacs
+(setq recentf-save-file (concat user-emacs-directory ".recentf"))
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-menu-items 40)
+
+
+;; Turn this behavior off because it's annoying
+(setq ido-use-filename-at-point nil)
+
+;; Global Search
+(global-set-key [(super shift f)] 'rgrep)
+
+;; full path in title bar
+(setq-default frame-title-format "%b (%f)")
