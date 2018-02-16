@@ -78,6 +78,7 @@
 ;; (set-frame-font "Source Code Pro Light 20")
 (set-frame-font "Menlo 20")
 
+(load "buffers.el")
 (load "ui.el")
 (load "editing.el")
 (load "clojure.el")

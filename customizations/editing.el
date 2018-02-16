@@ -99,11 +99,6 @@
 (global-set-key [(control super up)]  'move-line-region-up)
 
 
-;; ;; Tab around buffers
-;; (global-set-key [C-tab] 'next-buffer)
-;; (global-set-key (kbd "C-S-<tab>") 'previous-buffer)
-
-
 ;; Navigate up and down
 (global-set-key [(super down)] 'end-of-buffer)
 (global-set-key [(super up)]   'beginning-of-buffer)
@@ -120,7 +115,6 @@
   (next-line 1)
   (yank))
 (global-set-key [(super shift d)] 'duplicate-line)
-
 
 ;; Get electric with it.
 (setq electric-indent-mode nil)
@@ -156,7 +150,6 @@
 
 (setq-default fill-column 120)
 
-
 ;; Save backups to a different directory
 (setq backup-directory-alist `(("." . ,(concat user-emacs-directory
                                                "backups"))))
@@ -173,10 +166,6 @@
 ;; keep track of saved places in ~/.emacs.d/places
 (setq save-place-file (concat user-emacs-directory "places"))
 
-;; Occasionally revert file-visiting buffers (ex:after git pull)
-(global-auto-revert-mode)
-
-
 ;; No need for ~ files when editing
 (setq create-lockfiles nil)
 
@@ -191,23 +180,9 @@
 (setq recentf-max-menu-items 40)
 
 
-;; "When several buffers visit identically-named files,
-;; Emacs must give the buffers distinct names. The usual method
-;; for making buffer names unique adds ‘<2>’, ‘<3>’, etc. to the end
-;; of the buffer names (all but one of them).
-;; The forward naming method includes part of the file's directory
-;; name at the beginning of the buffer name
-;; https://www.gnu.org/software/emacs/manual/html_node/emacs/Uniquify.html
-(require 'uniquify)
-(setq uniquify-buffer-name-style 'forward)
-
-
 ;; Turn this behavior off because it's annoying
 (setq ido-use-filename-at-point nil)
 
-;; Includes buffer names of recently open files, even if they're not
-;; open now
-(setq ido-use-virtual-buffers t)
 
 ;; full path in title bar
 (setq-default frame-title-format "%b (%f)")
@@ -225,9 +200,6 @@
 
 ;; Global Search
 (global-set-key [(super shift f)] 'rgrep)
-
-;; Show buffer menu instead of buffer list, so that it shows up in the same window
-(global-set-key "\C-x\C-b" 'buffer-menu)
 
 ;; Enable Flycheck
 (global-flycheck-mode)
