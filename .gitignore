@@ -7,3 +7,5 @@ eshell/*
 network-security.data
 projectile-bookmarks.eld
 *.cache
+.recentf
+ido.last
