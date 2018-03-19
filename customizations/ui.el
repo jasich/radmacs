@@ -48,3 +48,18 @@
 ;; Line numbers
 ;;;;
 (global-linum-mode 1)
+
+(add-hook 'term-mode-hook 'my-inhibit-global-linum-mode)
+(defun my-inhibit-global-linum-mode ()
+  "Counter-act `global-linum-mode'."
+  (add-hook 'after-change-major-mode-hook
+            (lambda () (linum-mode 0))
+            :append :local))
+
+;; Powerline
+(require 'powerline)
+(powerline-default-theme)
+(set-face-attribute 'mode-line nil
+                    :foreground "Black"
+                    :background "DodgerBlue"
+                    :box nil)

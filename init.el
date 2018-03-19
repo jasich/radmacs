@@ -26,6 +26,7 @@
   '(parinfer
     clojure-mode
     clojure-mode-extra-font-locking
+    clj-refactor
     cider
     dash
     company
@@ -41,6 +42,7 @@
     web-mode
     ;; nyan-mode
     projectile
+    powerline
     flx-ido
     haml-mode
     yaml-mode
