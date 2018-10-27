@@ -11,6 +11,9 @@
 ;; Increase line height
 (setq-default line-spacing 5)
 
+;; Show cursor position
+(column-number-mode 1)
+
 ;;;;
 ;; Company for auto complete
 ;;;;
@@ -145,7 +148,13 @@ line."
 ;; Enable Flycheck
 (global-flycheck-mode)
 
+;; ;; Require Flymake
+;; (require 'flymake-easy)
+
 ;; Code folding
 (global-set-key (kbd "C-c C-f") 'hs-hide-all)
 (global-set-key (kbd "C-c C-F") 'hs-toggle-hiding)
 (global-set-key (kbd "C-c M-f") 'hs-show-all)
+
+(require 'editorconfig)
+(editorconfig-mode 1)

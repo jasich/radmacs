@@ -32,12 +32,17 @@
 (global-set-key (kbd "s-t") 'projectile-find-file)
 
 ;; Fuzzy Search using IDO
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
+;; (ido-mode 1)
+;; (ido-everywhere 1)
+;; (flx-ido-mode 1)
 
 ;; Find current file when opening neotree
 (setq neo-smart-open t)
+
+;; Don't force a fixed size on neotree
+(setq neo-window-fixed-size nil)
+;; Set initial width
+(setq neo-window-width 40)
 
 ;; Use projectile & neotree
 (setq projectile-switch-project-action 'neotree-projectile-action)
@@ -93,7 +98,7 @@
 (setq ido-use-filename-at-point nil)
 
 ;; Global Search
-(global-set-key [(super shift f)] 'rgrep)
+(global-set-key [(super shift f)] 'helm-projectile-ag)
 
 ;; full path in title bar
 (setq-default frame-title-format "%b (%f)")

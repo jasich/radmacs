@@ -1,9 +1,22 @@
 ;; Show buffer menu instead of buffer list, so that it shows up in the same window
 (global-set-key "\C-x\C-b" 'buffer-menu)
 
+(require 'helm-config)
+(global-set-key (kbd "M-x") #'helm-M-x)
+(global-set-key (kbd "C-x r b") #'helm-filtered-bookmarks)
+(global-set-key (kbd "C-x C-f") #'helm-find-files)
+
+(helm-mode 1)
+
+(require 'helm-projectile)
+(helm-projectile-on)
+
+;; (custom-set-variables
+;;  '(helm-follow-mode-persistent t))
+
 ;; Includes buffer names of recently open files, even if they're not
 ;; open now
-(setq ido-use-virtual-buffers t)
+;;(setq ido-use-virtual-buffers t)
 
 ;; "When several buffers visit identically-named files,
 ;; Emacs must give the buffers distinct names. The usual method
@@ -30,7 +43,9 @@ version 2016-06-18"
       nil
     (if (string-equal major-mode "dired-mode")
         nil
-      t)))
+      (if (string-equal "magit" (substring (buffer-name) 0 5))
+          nil
+        t))))
 
 (defun xah-next-user-buffer ()
   "Switch to the next user buffer.

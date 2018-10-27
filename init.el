@@ -23,12 +23,18 @@
 
 ;; Define all the packages I use for emacs
 (defvar my-packages
-  '(parinfer
-    clojure-mode
-    clojure-mode-extra-font-locking
-    clj-refactor
-    cider
+  '(elixir-mode
+    alchemist
+    editorconfig
+    ;; clojure-mode
+    ;; clojure-mode-extra-font-locking
+    ;; clj-refactor
+    ;; cider
     dash
+    helm
+    helm-projectile
+    helm-ag
+    diminish
     company
     multiple-cursors
     atom-one-dark-theme
@@ -40,18 +46,18 @@
     ;; yasnippet
     ;; clojure-snippets
     web-mode
-    ;; nyan-mode
     projectile
     powerline
-    flx-ido
+    ;; flx-ido
     haml-mode
     yaml-mode
     coffee-mode
     rspec-mode
     rubocop
+    ruby-block
     exec-path-from-shell
     rainbow-delimiters
-    ruby-block
+    projectile-rails
     magit))
 
 ;; Get all the packages!
@@ -88,7 +94,8 @@
 (load "buffers.el")
 (load "ui.el")
 (load "editing.el")
-(load "clojure.el")
+(load "elixir.el")
+;; (load "clojure.el")
 (load "ruby.el")
 (load "parens.el")
 (load "files.el")
@@ -102,11 +109,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(cider-cljs-lein-repl
-   "(cemerick.piggieback/cljs-repl (cljs.repl.rhino/repl-env))")
+   "(cemerick.piggieback/cljs-repl (cljs.repl.rhino/repl-env))" t)
  '(coffee-tab-width 2)
  '(custom-safe-themes
    (quote
     ("68f7a53f5f1a8d30e5cd2d119fe6ecddb081bfe61bc427ca20eefd0abfada488" default)))
+ '(helm-follow-mode-persistent t)
  '(inhibit-startup-screen t)
  '(package-selected-packages
    (quote
@@ -123,3 +131,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'upcase-region 'disabled nil)
+
+
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+
+(setq org-default-notes-file (concat org-directory "/notes.org"))
+(define-key global-map "\C-cc" 'org-capture)

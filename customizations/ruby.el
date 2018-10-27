@@ -2,11 +2,20 @@
 (eval-after-load 'rspec-mode
   '(rspec-install-snippets))
 
+;; I hate reek
+(setq-default flycheck-disabled-checkers '(ruby-reek))
+
 (add-hook 'ruby-mode-hook #'rubocop-mode)
 
+(projectile-rails-global-mode)
+
+;; (require 'flymake-ruby)
+;; (add-hook 'ruby-mode-hook 'flymake-ruby-load)
+
 ;; idk if I have to run this all the time or not
-(require 'ruby-block)
-(ruby-block-mode t)
+;;(require 'ruby-block)
+;;(ruby-block-mode t)
+(add-hook 'ruby-mode-hook #'ruby-block-mode)
 
 ;;; Alignment rules for Ruby
 ;;; Originals from http://d.hatena.ne.jp/rubikitch/20080227/1204051280
